@@ -88,7 +88,7 @@ Source: `student-run/kmom01-questions.md` (19 entries; the log has details and s
     git-ignored and the key ends up in public JS on GitHub Pages. Say why that is acceptable here.
 
 20. **Move reflections to a `reflections/` folder in the `webshop` starter, one `kmomXX.md` per kmom.**
-    `reports/` is used for the analysis reports in kmom01–05 and kmom10 (and kmom04–06 are report-heavy), and
+    `reports/` is used for the analysis reports in kmom01–05 and kmom10, and
     the kmom pages, hand-in video and kmom10 disagree on where the reflection goes (report file vs PR
     description). Add template files `reflections/kmom01.md`…`kmom06.md` and `kmom10.md` in the starter, and
     update all kmom pages ("Reflektera"/"Redovisning") to say where to write. The kmom01 hand-in video
