@@ -67,7 +67,7 @@ are concrete, sourced improvement items pulled from the free-text answers, for t
 
 ## Student run findings (kmom01, 2026-09-30)
 
-Source: `student-run/kmom01-questions.md` (19 entries; the log has details and suggested fixes).
+Source: `student-run/kmom01-questions.md` (run 1, 19 entries; the log has details and suggested fixes).
 
 15. **Fix lint conflicts in code snippets.** Pasting the snippets from `kunskap/lager_apit.mdx` and
     `kunskap/forstasidan_for_en_webbshop.mdx` verbatim fails the starter's own lint (4-space indents,
@@ -93,6 +93,30 @@ Source: `student-run/kmom01-questions.md` (19 entries; the log has details and s
     description). Add template files `reflections/kmom01.md`…`kmom06.md` and `kmom10.md` in the starter, and
     update all kmom pages ("Reflektera"/"Redovisning") to say where to write. The kmom01 hand-in video
     (`YD0tE7FW6i0`) still shows pasting the answers into the PR description and needs re-recording or a note.
+
+Run 2 (kmom01 again, after the reflections change), source: `student-run/kmom01-run2-questions.md`:
+
+21. **Tell students what green looks like after the first push.** If GitHub Pages is not set to "GitHub
+    Actions" (fork setup step 3), "Deploy static content to Pages" fails with the cryptic "Get Pages site
+    failed" error, on the PR and on every push. Add "after the first push all checks should be green; if
+    'Deploy static content to Pages' is red, go back to step 3" to the setup text and the hand-in section.
+
+22. **Add an "Uppdatera din fork" section.** Changes to the `webshop` starter (like the new `reflections/`
+    folder) only reach forks created afterwards. Explain "Sync fork" on GitHub, then `git pull` on `main`
+    and merge/rebase into the kmom branch, and decide how template changes are announced.
+
+23. **Cover web fonts and proprietary fonts.** Typsnitt och färg / Webbshoppen del 1 ask students to take
+    inspiration from a shop's typography, but shops often use their own or paid fonts (IKEA, Typekit). Say
+    what to do (pick a similar free Google Font), show how to add one (`<link>` or `@font-face`), and
+    mention the sustainability trade-off.
+
+24. **Handle uneven image heights in the product list.** Album covers have different proportions, so a card
+    grid gets uneven card heights. Mention `aspect-ratio` and `object-fit: cover` in
+    `kunskap/forstasidan_for_en_webbshop.mdx`.
+
+25. **Optional: CI check for unfilled reflection templates.** A `reflections/kmomXX.md` that still contains
+    "Skriv ditt svar här." passes every check. Consider a check in the starter's CI that warns or fails for
+    the current `kmom*` branch. Ties to #20.
 
 ## Keep — don't regress these while making the above changes
 
