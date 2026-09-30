@@ -91,12 +91,6 @@ Source: `student-run/kmom01-questions.md` (19 entries; the log has details and s
 20. **Explain that the API key is committed and published on purpose.** `models/auth.js` is not
     git-ignored and the key ends up in public JS on GitHub Pages. Say why that is acceptable here.
 
-21. **Add a verify step to the fork setup and hand-in.** Without "enable workflows" and Pages set to
-    GitHub Actions, a student gets no lint checks and no deploy on the PR and may not notice. Add
-    "you should see three workflows under Actions" and "check that the PR checks run". Also: `gh pr create`
-    in a fork fails with a SAML SSO error against the org parent repo, and `npm install` modifies the
-    tracked `package-lock.json` (consider `npm ci`).
-
 ## Keep — don't regress these while making the above changes
 
 - The whole-course single project that builds up kmom-by-kmom (webshop), praised repeatedly.
