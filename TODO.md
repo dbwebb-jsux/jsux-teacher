@@ -12,8 +12,8 @@ are concrete, sourced improvement items pulled from the free-text answers, for t
 2. **Fix lecture recording audio.** Mic placement picks up desk/surface vibration, causing unwanted
    noise. Check mic mounting/isolation before recording this year's videos.
 
-   but don't let volume dip too low at key instructional moments** — one respondent said quieter
 3. **Keep the vocal-intensity variation in recordings (praised as a deliberate engagement technique),
+   but don't let volume dip too low at key instructional moments** — one respondent said quieter
    passages made instructions hard to fully hear.
 
 4. **Increase feedback frequency across kmom submissions.** Multiple comments noted real feedback
