@@ -8,6 +8,10 @@ This folder is the workspace for the **teacher** of JSUX ("UX-design med JavaScr
 
 This folder is not itself a git repository — it contains two independent repos, described below. `cd` into the relevant one before running its commands; each has its own `CLAUDE.md` with detailed build/lint/test commands.
 
+You have access to both repos from this workspace:
+- `dbwebb-jsux.github.io/` — the course website repo (course content, kmom pages, assignments, knowledge articles).
+- `webshop/` — the starter repo that students fork, clone and work in during the course.
+
 ## Repos in this workspace
 
 ### `dbwebb-jsux.github.io/` — the public course site
