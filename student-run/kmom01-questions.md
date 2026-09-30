@@ -52,28 +52,31 @@ Work is done in `webshop-efostud` on branch `kmom01`.
 - **Where:** `kunskap/lager_apit.mdx` and `kunskap/forstasidan_for_en_webbshop.mdx` JS snippets vs `webshop/eslint.config.mjs` (`semi: never`, `indent: 2`)
 - **Type:** contradiction
 - **What I wondered / got stuck on:** `models/auth.js` snippet uses 4-space indentation; the last `main.js` snippet ends with `renderProducts();` (semicolon); the `.map` callback body uses 6 spaces. CI runs `npm test` (eslint) on push/PR, so copy-pasting the page as-is should fail lint. To be confirmed by running `npm test` after pasting.
-- **What I did about it:** (to be filled in after running lint)
+- **Confirmed:** pasting the page snippets verbatim gives 4 eslint errors (`models/auth.js` indent x2, `main.js` indent and extra semicolon). The `.map` template also has trailing whitespace after `</h3>`.
+- **What I did about it:** Fixed to 2 spaces / no semicolons / no trailing spaces.
 - **Suggested fix:** Fix the snippets so they pass the repo's lint rules.
 
 ### Q8. "Ersätt body-delen" but the snippet contains the whole file, and the CSS `body` rule already exists
 - **Where:** `kunskap/forstasidan_for_en_webbshop.mdx` "Grundläggande struktur"
 - **Type:** unclear
 - **What I wondered / got stuck on:** Says to replace the `body` part of `index.html` but shows the full document. For CSS it shows a full `body { ... }` rule while `style.css` already has a `body` rule; it does not say "replace" or "extend". Adding a second `body` rule may be flagged by stylelint (no-duplicate-selectors). It also never shows the CSS for `.container { flex: 1; }`, only describes it in words.
-- **What I did about it:** (to be filled in)
+- **Confirmed:** appending the page's `body` rule to `style.css` gives stylelint errors `no-duplicate-selectors` and `rule-empty-line-before`.
+- **What I did about it:** Edited the existing `body` rule instead, and put the generic `p`/`h1`/`h2`/`h3` rules before the component rules because stylelint's `no-descending-specificity` complained when I put `.header p` before `p` (a student customising the page will hit this too).
 - **Suggested fix:** Say "ersätt hela filen"/"ändra befintlig regel" explicitly and show the resulting `.container` rule.
 
 ### Q9. Hero image: no image provided and `assets/` does not exist
 - **Where:** `kunskap/forstasidan_for_en_webbshop.mdx` "En Hero-bild"
 - **Type:** missing
 - **What I wondered / got stuck on:** The page uses `assets/hero-banner.jpg` from the teacher's own download. The starter repo has no `assets/` directory and no example image. Students must find, license and size an image on their own.
-- **What I did about it:** (to be filled in)
+- **What I did about it:** Created my own small SVG (`assets/hero-banner.svg`) because I cannot download or view photos. Also: `css/use-baseline` and the Google Fonts `<link>` for Oswald were needed to reuse the inspiration shop's font; the page never mentions how to add web fonts, which the assignment (typsnitt) invites.
 - **Suggested fix:** Provide a default placeholder hero in the starter and state image size/format guidance (also relevant for sustainability, CO2).
 
 ### Q10. API response shape is not documented on the page
 - **Where:** `kunskap/forstasidan_for_en_webbshop.mdx` "Produktlistning"
 - **Type:** unclear
 - **What I wondered / got stuck on:** The code uses `result.data` and `product.image_url` and `product.name`. The page says "look at the console" but does not show or link the response shape. To be verified against the real API.
-- **What I did about it:** (to be filled in)
+- **Confirmed:** `GET /v2/products?api_key=...` returns `{ data: [...] }` with 12 products; each has `id, article_number, name, description (long markdown), specifiers, stock, location, price, image_url, category`. `result.data`, `image_url` and `name` in the page's code are correct. `price` and `category` are also available but never shown in the exercise.
+- **What I did about it:** Used `name` and `image_url` as on the page.
 - **Suggested fix:** Show one example product JSON.
 
 ### Q11. Where should the webshop inspiration choice be recorded for "Webbshoppen del 1"?
@@ -87,7 +90,7 @@ Work is done in `webshop-efostud` on branch `kmom01`.
 - **Where:** `uppgifter/webbshoppen_del_1.mdx`
 - **Type:** unclear
 - **What I wondered / got stuck on:** Four short requirements. How do I know I am done? Product "titel och bild" but the exercise page already produced this, so the assignment is mostly "make it look like your chosen inspiration". How much design work is expected? Nothing on required file list or price display.
-- **What I did about it:** (to be filled in)
+- **What I did about it:** Built header (name + tagline), hero image, a responsive grid of products (title + image) and a footer, styled after the analysed shop. Unsure whether that is "enough"; a checklist would tell me.
 - **Suggested fix:** TODO #6: add a "definition of done" checklist.
 
 ### Q13. Where do the reflection answers go: report file or PR description?
@@ -101,7 +104,7 @@ Work is done in `webshop-efostud` on branch `kmom01`.
 - **Where:** `uppgifter/typsnitt_och_farg.mdx`
 - **Type:** unclear
 - **What I wondered / got stuck on:** "Berätta om du använde något särskilt verktyg" but the page gives no suggestion of tools (browser dev tools, color picker extensions, etc.), and how many colors count as "the palette".
-- **What I did about it:** (to be filled in)
+- **What I did about it:** Fetched HTML/CSS with `curl` and counted hex codes (Bengans; several other record shops returned 403 to automated requests). A student would use dev tools or a color picker instead.
 - **Suggested fix:** Suggest 1-2 tools and a range (e.g. 4-6 colors) to reduce anxiety.
 
 ### Q15. Markdown heading style in the report template
@@ -111,9 +114,44 @@ Work is done in `webshop-efostud` on branch `kmom01`.
 - **What I did about it:** Followed the template.
 - **Suggested fix:** Consider `#`-style headings.
 
+### Q16. Fork workflows / Pages not active after following the setup, so hand-in checks and deploy do not run
+- **Where:** `kmom01.mdx` "En plats att koda på" (fork video + my new written steps), hand-in video
+- **Type:** tooling
+- **What I wondered / got stuck on:** After pushing `kmom01` and opening the PR, GitHub shows no workflow runs and no status checks for the PR. `gh api repos/efostud/webshop/actions/workflows` returns zero workflows and the Pages API returns 404, i.e. the fork's workflows were never enabled and Pages is not set to "GitHub Actions". The hand-in video promises lint + static deploy checks on the PR, so a student who skipped the "enable workflows" click would silently get no checks and no deploy and might not notice.
+- **What I did about it:** Blocked on the UI steps (they cannot be done through the API the first time). Asked the teacher to do them from the written steps as a test of the new text.
+- **Suggested fix:** Add a "verify" step at the end of the setup: "Du ska se tre workflows under Actions" and after the first PR: "Kontrollera att checkarna kör". Consider a check in the hand-in video/page for "no checks running? Then Actions is not enabled".
+
+### Q17. `gh pr create` in a fork fails with SAML SSO error
+- **Where:** hand-in (video `YD0tE7FW6i0`), tooling
+- **Type:** tooling
+- **What I wondered / got stuck on:** `gh pr create --repo efostud/webshop --base main --head kmom01` failed with "Resource protected by organization SAML enforcement ... (repository.parent)" because `gh` queries the parent repo in the `dbwebb-jsux` organisation and the token is not SSO-authorised. Students who use `gh` will meet this, students who use the web UI will not.
+- **What I did about it:** Created the PR with `gh api repos/efostud/webshop/pulls -f head=kmom01 -f base=main ...` which only touches the fork. It targeted `efostud/webshop` as intended.
+- **Suggested fix:** Mention in the hand-in text that the web UI is the supported way; optionally add a `gh` note.
+
+### Q18. `npm install` modifies the tracked `package-lock.json`
+- **Where:** starter repo `webshop`
+- **Type:** tooling
+- **What I wondered / got stuck on:** Running `npm install` on the untouched starter changed `package-lock.json` (6 lines removed) so `git status` shows a modified file the student did not touch. A student may be unsure whether to commit it.
+- **What I did about it:** Reverted it (`git checkout package-lock.json`) and did not commit it.
+- **Suggested fix:** Use `npm ci` in the instructions, or regenerate and commit the lockfile in the starter.
+
+### Q19. Could not check the result visually
+- **Where:** my own tooling, not the course
+- **Type:** other
+- **What I wondered / got stuck on:** I could not take a screenshot (headless Chromium hung), so I verified only lint (`npm test`, all green), that the dev server serves the files, and that the API returns what `main.js` expects. The visual result and Oswald loading from Google Fonts are unverified. The teacher should open the page.
+- **What I did about it:** Nothing further.
+- **Suggested fix:** n/a.
+
 ## Time spent vs. stated
 | Section | Stated | Actual (rough) |
 |---|---|---|
+| Läsa & titta | 6 h | not done (book), captions read only |
+| En plats att koda på | 1 h | mostly done by the teacher already; fork was pre-made |
+| Öva (Lager API + Förstasidan) | 6 h | about 30 min of work for an experienced coder, largely typing the page's snippets |
+| Uppgifter (Typsnitt och färg + Webbshoppen del 1) | 6 h | about 45 min incl. analysis and styling |
+| Reflektera | 1 h | 10 min |
+
+Note: an experienced student is far below the stated hours; less experienced students probably fit them.
 
 ## Things that worked well
 - Fork setup steps and `npm install` / `npm test` on the starter repo work out of the box (`npm test`: eslint, stylelint, htmlhint all pass on the untouched starter).
