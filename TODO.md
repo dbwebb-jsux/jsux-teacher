@@ -65,6 +65,38 @@ are concrete, sourced improvement items pulled from the free-text answers, for t
     moments as too rushed (a ~3 second pause before moving on). Build in real pause time and consider
     asking for questions more than once per session.
 
+## Student run findings (kmom01, 2026-09-30)
+
+Source: `student-run/kmom01-questions.md` (19 entries; the log has details and suggested fixes).
+
+15. **Fix lint conflicts in code snippets.** Pasting the snippets from `kunskap/lager_apit.mdx` and
+    `kunskap/forstasidan_for_en_webbshop.mdx` verbatim fails the starter's own lint (4-space indents,
+    a trailing semicolon, trailing whitespace). Appending the page's `body` rule to `style.css` also
+    triggers `no-duplicate-selectors`. Make the snippets lint-clean and say "replace" vs "add" explicitly.
+
+16. **Write the Postman/POST step out as text.** `kunskap/lager_apit.mdx` never says what the POST body
+    contains (`x-www-form-urlencoded`, key `api_key`, expect `201 Created` and 12 albums); it only
+    works if you watch the video. Add the request as text, with a `curl` example. Fits #5.
+
+17. **Say where the reflection answers go.** The kmom page says "som en del av din inlämning", the hand-in
+    video pastes them into the PR description, and the Typsnitt och färg spec has its own
+    `reports/kmom01.md`. State the location explicitly. Ties to #9.
+
+18. **Definition of done and a default hero image for "Webbshoppen del 1".** Four open requirements, no
+    checklist, and the starter has no `assets/` or placeholder hero image. Ties to #6.
+
+19. **Re-record or annotate the weekly genomgång video** (`oBAUUkz5XG4` in `kmom01.mdx`). It is from the
+    first run: "helt ny kurs", "sju kursmoment", and a specific schedule. Ties to #2/#3.
+
+20. **Explain that the API key is committed and published on purpose.** `models/auth.js` is not
+    git-ignored and the key ends up in public JS on GitHub Pages. Say why that is acceptable here.
+
+21. **Add a verify step to the fork setup and hand-in.** Without "enable workflows" and Pages set to
+    GitHub Actions, a student gets no lint checks and no deploy on the PR and may not notice. Add
+    "you should see three workflows under Actions" and "check that the PR checks run". Also: `gh pr create`
+    in a fork fails with a SAML SSO error against the org parent repo, and `npm install` modifies the
+    tracked `package-lock.json` (consider `npm ci`).
+
 ## Keep — don't regress these while making the above changes
 
 - The whole-course single project that builds up kmom-by-kmom (webshop), praised repeatedly.
