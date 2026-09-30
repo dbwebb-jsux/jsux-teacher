@@ -99,6 +99,7 @@ Work is done in `webshop-efostud` on branch `kmom01`.
 - **What I wondered / got stuck on:** The page says "som en del av din inlämning via GitHub svara på frågorna". The hand-in video (captions) copies the questions into the pull request description. But the Typsnitt och färg spec has its own report file `reports/kmom01.md`. A student could reasonably put the TIL in the report.
 - **What I did about it:** Following the video: reflection answers go in the PR description. Also mention in the report? (decision pending)
 - **Suggested fix:** State the location explicitly on the kmom page. Ties to TODO #9.
+- **Resolved 2026-09-30:** reflections now go in `reflections/kmomXX.md` (templates added to the starter, all kmom pages updated). The kmom01 hand-in video still shows the PR description and has an "Obs" note on the page (see TODO #20).
 
 ### Q14. Color analysis: tool not specified
 - **Where:** `uppgifter/typsnitt_och_farg.mdx`

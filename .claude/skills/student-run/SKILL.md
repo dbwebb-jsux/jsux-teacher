@@ -22,7 +22,7 @@ Purpose: test the course material by doing it. The teacher wants to find unclear
 - General programming knowledge is allowed to fill gaps, but every gap is still logged as a question (the point is finding where a student would be stuck).
 - Videos: fetch Swedish auto-captions with `yt-dlp --write-auto-subs --sub-langs "sv.*" --skip-download --convert-subs srt -o "/tmp/subs/%(id)s" <url>` (may be rate limited for English; Swedish worked). Captions only cover narration, so log anything that seems to depend on what is shown on screen.
 - Reading assignments (course literature, external sheets/PDFs) cannot be done: note what was skipped, and write the reflection from what is actually available, clearly marked in the log as simulated.
-- Reflection/report text: write it as a student would in `reports/` (see the kmom page for file name and questions), respecting stated length (e.g. 5-8 sentences per question).
+- Analysis reports go in `reports/kmomNN.md` (see the assignment spec). Reflection answers go in `reflections/kmomNN.md` (template per kmom in the starter repo; the kmom page says so). If the fork lacks `reflections/`, ask the teacher to sync it with upstream. Respect the stated length (e.g. 5-8 sentences per question).
 
 ## Workflow
 
@@ -33,7 +33,7 @@ Purpose: test the course material by doing it. The teacher wants to find unclear
 5. Commit in small steps with meaningful messages.
 6. Hand-in as the course describes: push the branch with upstream, then create the PR against the fork's own `main`:
    `gh pr create --repo efostud/webshop --base main --head <kmom> --title "<kmom>" --body "<reflection answers>"`
-   The PR description holds the reflection answers if the kmom page says so. Check that CI (lint, static deploy) passes; log failures.
+   The reflections are part of the branch (`reflections/kmomNN.md`), not the PR description, unless the kmom page says otherwise. Check that CI (lint, static deploy) passes; log failures.
 7. Finish with a summary to the teacher: what was done, PR URL, the top questions, and suggested course-material fixes. Then stop. Do not merge.
 
 If `gh` is not authenticated, ask the teacher to run `! gh auth login`.
