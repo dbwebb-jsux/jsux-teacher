@@ -78,18 +78,21 @@ Source: `student-run/kmom01-questions.md` (19 entries; the log has details and s
     contains (`x-www-form-urlencoded`, key `api_key`, expect `201 Created` and 12 albums); it only
     works if you watch the video. Add the request as text, with a `curl` example. Fits #5.
 
-17. **Say where the reflection answers go.** The kmom page says "som en del av din inlämning", the hand-in
-    video pastes them into the PR description, and the Typsnitt och färg spec has its own
-    `reports/kmom01.md`. State the location explicitly. Ties to #9.
-
-18. **Definition of done and a default hero image for "Webbshoppen del 1".** Four open requirements, no
+17. **Definition of done and a default hero image for "Webbshoppen del 1".** Four open requirements, no
     checklist, and the starter has no `assets/` or placeholder hero image. Ties to #6.
 
-19. **Re-record or annotate the weekly genomgång video** (`oBAUUkz5XG4` in `kmom01.mdx`). It is from the
+18. **Re-record or annotate the weekly genomgång video** (`oBAUUkz5XG4` in `kmom01.mdx`). It is from the
     first run: "helt ny kurs", "sju kursmoment", and a specific schedule. Ties to #2/#3.
 
-20. **Explain that the API key is committed and published on purpose.** `models/auth.js` is not
+19. **Explain that the API key is committed and published on purpose.** `models/auth.js` is not
     git-ignored and the key ends up in public JS on GitHub Pages. Say why that is acceptable here.
+
+20. **Move reflections to a `reflections/` folder in the `webshop` starter, one `kmomXX.md` per kmom.**
+    `reports/` is used for the analysis reports in kmom01–05 and kmom10 (and kmom04–06 are report-heavy), and
+    the kmom pages, hand-in video and kmom10 disagree on where the reflection goes (report file vs PR
+    description). Add template files `reflections/kmom01.md`…`kmom06.md` and `kmom10.md` in the starter, and
+    update all kmom pages ("Reflektera"/"Redovisning") to say where to write. The kmom01 hand-in video
+    (`YD0tE7FW6i0`) still shows pasting the answers into the PR description and needs re-recording or a note.
 
 ## Keep — don't regress these while making the above changes
 
