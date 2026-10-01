@@ -32,7 +32,7 @@ API key reused from earlier runs. Videos: the three kmom02 videos were read via 
 - **Where:** same, "Tema-väljare"
 - **Type:** other
 - **What I wondered / got stuck on:** `variables-dark.css` is a full copy of `variables.css`, so any palette change must be made in two files. The mode is also applied by a `defer`red module script after first paint, so a user with dark saved sees a flash of the light theme on every page load. The course repeats the DRY argument for variables just before.
-- **What I did about it:** Kept it as in the exercise (two files) but moved only the theme-specific variables (text/background) into the files that differ, with the palette shared in `variables.css`... (see commit). Noted the flash.
+- **What I did about it:** Followed the exercise (two full files, palette duplicated; I added `--surface-color` as a third themed variable). The flash was not fixed, only noticed by reasoning about `defer`, not measured.
 - **Suggested fix:** Mention that only the differing variables need to be in the dark file (a second `<link>` or `[data-theme]` selector), and optionally mention the flash and how to avoid it (small blocking inline script). At least name it as a known limitation.
 
 ### Q5. Invalid JavaScript in the markdown exercise
@@ -73,7 +73,7 @@ API key reused from earlier runs. Videos: the three kmom02 videos were read via 
 ### Q10. "Länka till webbshoppen" is ambiguous
 - **Where:** `uppgifter/typsnitt_och_farg_del_2.mdx`, requirement 2.1
 - **Type:** unclear
-- **What I wondered / got stuck on:** Is it the analysed website (IKEA) or the student's own webshop? Since the report is a redo of kmom01 where "webbplatsen" is the analysed site, it is probably the analysed site, but the course also says "webbshoppen" for the project. In the walkthrough video the teacher analyses a low-fi/real site ("lowfree"?) and the analysis is of the analysed site, so I assume analysed site.
+- **What I wondered / got stuck on:** Is it the analysed website (IKEA) or the student's own webshop? Since the report is a redo of kmom01 where "webbplatsen" is the analysed site, it is probably the analysed site, but the course also says "webbshoppen" for the project. The demo video (captions) talks about "webbplatsen jag analyserar" separately from the webshop, so I assume the analysed site.
 - **What I did about it:** Linked the analysed site (IKEA).
 - **Suggested fix:** Write "Länka till webbplatsen du analyserar".
 
@@ -88,7 +88,7 @@ API key reused from earlier runs. Videos: the three kmom02 videos were read via 
 - **Where:** `uppgifter/typsnitt_och_farg_del_2.mdx`, requirement 2.3
 - **Type:** missing
 - **What I wondered / got stuck on:** "Notera ner radhöjd och marginal efter stycken och rubriker" – the kmom01 report method says that the student used some tool. Reading computed styles from the browser devtools is the obvious way, but it is not mentioned and computed values (px vs unitless line-height, `em` margins) can be reported in many ways.
-- **What I did about it:** Used computed values from the stylesheets/devtools-equivalent (`curl`ed CSS), and reported unit as found.
+- **What I did about it:** Without a browser session I grepped `line-height` from the `curl`ed IKEA stylesheets (1.25 / 1.5 / 1.571) and reported that margins could not be read, because IKEA sets them per component. Marked in the report as not measured on elements.
 - **Suggested fix:** Add one line: "Använd webbläsarens utvecklarverktyg (Inspect > Computed)".
 
 ### Q13. Stale text on the kmom page
@@ -105,19 +105,36 @@ API key reused from earlier runs. Videos: the three kmom02 videos were read via 
 - **What I did about it:** Followed the written spec and put the selector on both pages (small extra).
 - **Suggested fix:** Decide whether the selector must be on every page; if so say it, since the persisted `localStorage` mode would otherwise be ignored on `index.html`.
 
-### Q15. Time estimate
-- **Where:** `kmom02.mdx`, all `<p class="time">`
-- **Type:** too-much-work (to be filled at the end)
-- **What I did about it:** See table at the end.
+### Q15. Markdown descriptions bring their own headings
+- **Where:** `kunskap/rendera_markdown_i_javascript.mdx`, `uppgifter/webbshoppen_del_2.mdx` req. 4
+- **Type:** missing
+- **What I wondered / got stuck on:** The API descriptions start with `###` headings ("Band Name:", "Tagline:", "Backstory:"), so they render as `<h3>` and compete with the album title (also h3) and the page's h2. The exercise says "styla det" only in the video. A capable student needs to scope CSS to a wrapper element.
+- **What I did about it:** Wrapped the output in `.album-description` and styled its h3/h4 separately.
+- **Suggested fix:** One sentence in the exercise about the heading levels in the descriptions and wrapping the result in an element with a class.
+
+### Q16. Reading assignments and Canvas video not possible
+- **Where:** `kmom02.mdx`, "Läsa & titta"
+- **Type:** other
+- **What I did about it:** Skipped chapters 3 and 5 and the sustainability video (Canvas page needs login). The reflection answer 1 is therefore simulated and says so in the file. Q1 of the reflection asks specifically about chapter 5, which can only be answered by reading it.
+- **Suggested fix:** None needed, noted for the teacher.
+
+### Q17. PR creation blocked by SAML enforcement
+- **Where:** hand-in (`gh pr create --repo efostud/webshop`)
+- **Type:** tooling
+- **What I wondered / got stuck on:** `gh pr create` failed with `Resource protected by organization SAML enforcement` (the fork's parent is in the `dbwebb-jsux` org). Pushing the branch worked and `gh pr list` worked earlier in the session.
+- **What I did about it:** Blocked, asked the teacher to authorize the token at the SSO URL or create the PR from `https://github.com/efostud/webshop/pull/new/kmom02`.
+- **Suggested fix:** For students: not applicable (their forks have no org parent), but a student in an org-managed fork could hit it.
 
 ## Time spent vs. stated
 | Section | Stated | Actual (rough) |
 | --- | --- | --- |
-| Läsa & titta | 6 h | Not done (book chapters, Canvas video unavailable) |
-| Öva | 6 h | (fill) |
-| Uppgifter | 6 h | (fill) |
-| Reflektera | 1 h | (fill) |
+| Läsa & titta | 6 h | Not done (book chapters, Canvas video unavailable); videos read as captions only |
+| Öva | 6 h | Not timed; for a capable student about 1-1.5 h once the errors (Q2, Q3, Q5) are worked around |
+| Uppgifter | 6 h | Not timed; page and report about 1 h of work. The 6 h estimate looks generous for a capable student, but includes colour experimentation |
+| Reflektera | 1 h | Simulated |
 
 ## Things that worked well
+- The theme switcher (`link` href swap + `localStorage`) works in the browser after fixing the id (checked via a headless screenshot of the light theme; dark theme and persistence not clicked through).
+- `marked` from the CDN works as written (HTTP 200, renders lists/bold).
 - The kmom page links to all pieces in a clear order and the 4 requirements of the assignment are short and testable.
 - Reflection template with the three questions is already in the fork.
