@@ -118,6 +118,14 @@ Run 2 (kmom01 again, after the reflections change), source: `student-run/kmom01-
     "Skriv ditt svar här." passes every check. Consider a check in the starter's CI that warns or fails for
     the current `kmom*` branch. Ties to #20.
 
+26. **Remove all walkthrough and lecture videos.** Remove the "Veckans genomgång" and "Veckans föreläsning"
+    `<YouTube>` embeds and their sections from the kmom pages (kmom01–06, kmom10), since they are
+    outdated (last year's dates, sick-leave notes, plans for other kmoms, flows that no longer match the
+    exercises). Check for content only found in the videos (e.g. the validation/CI and custom events
+    lecture in kmom03, the kmom02 `localStorage` demo) and move what is still needed into the written
+    material. Keep the "done" demo videos at the top of each kmom unless decided otherwise. Note that the
+    "Keep" list below praises coding sessions in lectures; that refers to live lectures, not the recordings.
+
 ## Keep — don't regress these while making the above changes
 
 - The whole-course single project that builds up kmom-by-kmom (webshop), praised repeatedly.
