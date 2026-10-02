@@ -67,7 +67,7 @@ Videos read via Swedish auto-captions (3 videos).
 - **Where:** `uppgifter/javascript_pa_webben.mdx`
 - **Type:** unclear
 - **What I wondered / got stuck on:** "Utifrån din valda webbshop" and "förstasidan, en produktsida och en ordersida/varukorgen". Ordersida: many shops need a logged-in cart or have no separate page (IKEA's `/shoppingcart/` is public, but it is not obvious). The table header "Ordersida" vs. text "ordersida/varukorgen". It is also not said how to treat lazy-loaded scripts (counts grow if you wait), or to wait for network idle, or whether to include inline scripts. Results fluctuate between runs (A/B tests, consent banners); the cookie banner may need accepting first.
-- **What I did about it:** Measured with headless Chromium through the DevTools protocol (cache disabled, waited 15 s, counted requests of type Script, transferred bytes via `encodedDataLength`, load time from `loadEventEnd`), no cookie consent. Documented in the report.
+- **What I did about it:** Measured with headless Chromium (a one-off node script over the DevTools protocol; a student would simply use the Network tab) through the DevTools protocol (cache disabled, waited 15 s, counted requests of type Script, transferred bytes via `encodedDataLength`, load time from `loadEventEnd`), no cookie consent. Documented in the report.
 - **Suggested fix:** Specify: wait until the page has finished loading, same state (consent) for all pages, "Transferred" vs "Resources" size, and note that numbers vary.
 
 ### Q10. "Rapportfil" paths and wording
@@ -91,16 +91,20 @@ Videos read via Swedish auto-captions (3 videos).
 - **What I did about it:** Reverted the lockfile with `git checkout package-lock.json`.
 - **Suggested fix:** Check which npm version the lockfile was made with; consider `npm ci` in the instructions.
 
-### Q13. Time estimate
-- See table below.
+### Q13. PR creation blocked by SAML enforcement (again)
+- **Where:** hand-in, `gh pr create --repo efostud/webshop`
+- **Type:** tooling
+- **What I did about it:** Branch `kmom03` is pushed; PR could not be created (same as kmom02 Q17). Blocked, needs the teacher to authorize the token for the `dbwebb-jsux` org or create the PRs in the web UI.
+- **Suggested fix:** None for students.
 
 ## Time spent vs. stated
 | Section | Stated | Actual (rough) |
 | --- | --- | --- |
 | Läsa & titta | 6 h | Not done (book chapter 8, ITU reports); videos read as captions only |
-| Öva | 6 h | (fill) |
-| Uppgifter | 6 h | (fill) |
+| Öva | 6 h | Not timed; the cart exercise itself is about 1-2 h for a capable student once Q1-Q3 are worked around |
+| Uppgifter | 6 h | Not timed; the webshop part (−/remove/counter) is small, the report needs manual measuring of three pages |
 | Reflektera | 1 h | Simulated |
 
 ## Things that worked well
+- Cart logic tested in headless Chromium: add (3 clicks → counter 3, `localStorage` `{id: qty}`), decrease, remove, increase, no console errors. `npm test` clean.
 - The exercise builds on the kmom01/02 structure and the cart logic is small and easy to follow.
