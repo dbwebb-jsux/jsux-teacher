@@ -56,19 +56,19 @@ Chosen requirements: **Krav 3 (felhantering)** and **Krav 4 (responsivitet)**, i
 - **What I did about it:** Not implemented (read only).
 - **Suggested fix:** Link to the three earlier specs and give an expected size.
 
-### Q8. Reflection/grading: "KRAV 1A" heading and the rule "0 points if not documented" are strict; template headings differ from the page
-- **Where:** `kmom10.mdx` ("Redovisning"), `reflections/kmom10.md`
+### Q8. Heading capitalisation differs between the page and the template
+- **Where:** `kmom10.mdx` ("Krav 4" heading text "**Krav 4**" vs. "**KRAV 1A**/**KRAV 3**"), `reflections/kmom10.md` (`## KRAV 4`)
 - **Type:** contradiction
-- **What I wondered / got stuck on:** The page asks for the heading `KRAV 3`, `Krav 4` (inconsistent capitalisation: "KRAV 1A", "KRAV 2", "KRAV 3", but "Krav 4" at Krav 4), the template uses `## KRAV 4`. The template says "Ta bort rubriker för krav du inte har gjort", the page says "ha en rubrik för varje krav du gör" - consistent. The page says reflections "tre delar" in the text but the template has five question areas (1A, 1B, 2, 3, 4) + general + course thoughts. Fine, just the capitalisation.
-- **What I did about it:** Used the template's headings, removed 1A, 1B and 2.
-- **Suggested fix:** Use one capitalisation.
+- **What I wondered / got stuck on:** The page asks for the headings `KRAV 1A`, `KRAV 1B`, `KRAV 2`, `KRAV 3` but writes "Krav 4" in the Krav 4 section. The grading is based on the text and "missing documentation = 0 points", so the exact heading matters for a strict reader. The template has `KRAV 4`.
+- **What I did about it:** Used the template's headings and removed the three requirements I did not do.
+- **Suggested fix:** Use `KRAV 4` on the page.
 
-### Q9. Grading table: overlapping bands and unclear mapping for projects with 2 requirements
+### Q9. Grading table: overlapping bands, and a student doing two requirements cannot reach more than D-C
 - **Where:** `index.mdx`, "Slutbetyg" and "Projektarbete"
 - **Type:** unclear
-- **What I wondered / got stuck on:** E is "55+", FX "54-", F "50-": FX and F overlap (50–54). The genomgång explains: 30 (kmom01-06) + 30 (two krav) = 60 = D at best, so a student who does two requirements and gets everything right gets D, not E as the page text may suggest ("minst 2 krav för godkänt" suggests the minimum is E). The text says "Välj minst 2 av 4 krav för att få godkänt", but a student with 30 + 2x(less than 12.5) can end on FX. The Ladok table says kmom05–kmom10 is one 2.5 hp "Projekt" with "den sista inlämningen bestämmer slutbetyget".
+- **What I wondered / got stuck on:** FX is "54-" and F is "50-", so 50–54 fits both. With the baseline 30 points (kmom01-06 done as instructed) plus up to 10 for "mycket väl utfört" plus 2x15 for two requirements, the maximum is 70 = C; to reach A the student must do all four requirements. The genomgång says this ("30 + 30 = 60, bara D"), but the kmom page says "Välj minst 2 av 4 för att få godkänt" without saying what grade that means. The first table says 30 points for "Kursmomenten är utförda enligt instruktion", i.e. already a baseline, which makes the 55 limit for E reachable only with partial points on the two requirements.
 - **What I did about it:** Nothing.
-- **Suggested fix:** Show a worked example (two krav -> max 90? no: 30+10+30 = 70 = C) and fix the band overlap.
+- **Suggested fix:** Add a sentence like "två krav ger som mest betyg C" and fix the overlap.
 
 ### Q10. Presentation video: cannot be recorded by me; requirements and hosting are open
 - **Where:** `kmom10.mdx`, "Presentation"
@@ -80,7 +80,58 @@ Chosen requirements: **Krav 3 (felhantering)** and **Krav 4 (responsivitet)**, i
 ### Q11. The genomgång video is dated and partly contradicts the page
 - **Where:** genomgång video `Z_WDdrUBV-U`
 - **Type:** outdated
-- **What I wondered / got stuck on:** The video says "fyra krav, inte fem som jag försökte hålla upp" (visual joke, lost in captions), that the final grade starts at "över 55" with "30 från kursmomenten", and that the category files should be named `hardrock.html` etc.; it also says "se till att lägga tydliga länkar ... visa upp dem i presentationsvideon" which is not on the page. The genomgång lists Krav 3 as including "när vi lägger till en order" as an API failure.
+- **What I wondered / got stuck on:** The video says "fyra krav, inte fem som jag försökte hålla upp" (a visual joke that is lost in captions), that the final grade starts at "över 55" with "30 från kursmomenten", and that the category files should be named `hardrock.html` etc.; it also says "se till att lägga tydliga länkar ... visa upp dem i presentationsvideon" which is not on the page. The genomgång lists Krav 3 as including "när vi lägger till en order" as an API failure.
 - **What I did about it:** Followed the page.
 - **Suggested fix:** Add the video-only hints to the page.
 
+### Q12. The MDN example for Krav 3 does not catch HTTP errors, and nothing says how to test "no internet"
+- **Where:** `kmom10.mdx` Krav 3, linked MDN "Using the Fetch API"
+- **Type:** unclear
+- **What I wondered / got stuck on:** `fetch` only rejects on network failure; a 404/500 resolves normally. The MDN page does cover `response.ok` further down, but the first example (the one the genomgång points to) does not. "Testa genom att inte ha internet uppkoppling efter sidan laddats" is not trivial for students: DevTools "Offline" in the Network tab (or `Network.emulateNetworkConditions`) is the practical way, and is not mentioned. I used the DevTools offline emulation.
+- **What I did about it:** `request()` helper checking `response.ok`, status text and JSON parsing; tested offline, malformed JSON and the stock rule in headless Chromium.
+- **Suggested fix:** Mention `response.ok` and DevTools "Offline".
+
+### Q13. A student has no way to avoid duplicate orders when an error hits halfway through creating an order
+- **Where:** Krav 3 + `orderformular_for_webbshoppen`: order + order items are created in several calls
+- **Type:** unclear
+- **What I wondered / got stuck on:** If `POST /orders` succeeds and the second `POST /order_items` fails, retrying creates a second order. The Lager API has no transaction, and the spec says "visa tydligt för användaren". The payment is already done at this point, so the error message must say so.
+- **What I did about it:** Banner text states the payment is done but the order failed; the form stays filled. No resume logic (documented as a known limitation in the reflection).
+- **Suggested fix:** Mention this as a real-world error case, or accept it explicitly.
+
+### Q14. Responsive images with an external resizing proxy: dependency and privacy not covered by the course
+- **Where:** Krav 4 / `responsiva-bilder.mdx`
+- **Type:** other
+- **What I wondered / got stuck on:** The only way to get small images was a third-party resizer (`wsrv.nl`): the page requires `srcset`, but the files come from the API. It cut my front page from ~28 MB to ~301 KiB in Lighthouse (desktop), mobile 450 KiB, LCP 8.0 s to 0.7 s (partly because of `loading="lazy"`). A student may not realise the sustainability/privacy/availability trade-off, and the course (kmom04 report) discusses sustainability. If the proxy goes down, all pictures disappear (no `src` fallback to the original).
+- **What I did about it:** Used it, documented the trade-off in the reflection.
+- **Suggested fix:** See Q5 (smaller images from the API, or an article section on this).
+
+### Q15. Responsiveness problems found by testing: `vh` units and fixed overlays, `1fr` grid overflow, chat button covering content
+- **Where:** earlier kmoms' CSS (kmom03 cart overlay, kmom06 chat) + kmom10 Krav 4
+- **Type:** other
+- **What I wondered / got stuck on:** With no horizontal overflow at 320-1280 px, the "obvious" check passes, but screenshots at 375 px showed real problems: the chat button covering the add-to-cart button, the cart panel under the chat button, and giant single-column cards. A student who only resizes the desktop window may miss these. While fixing it, `repeat(2, 1fr)` made the grid wider than the viewport (min-content of images), which needs `minmax(0, 1fr)`; also `width`/`height` attributes on `<img>` need `height: auto` in CSS or the aspect ratio breaks.
+- **What I did about it:** Fixed these; documented in the reflection.
+- **Suggested fix:** Suggest testing on a phone-size emulator in DevTools, with a checklist of common traps (overlays, `vh`, grid `minmax(0, ...)`, images).
+
+### Q16. CI and PR
+- **Where:** hand-in
+- **Type:** tooling
+- **What I wondered / got stuck on:** Same as before: Pages deploy fails in the fork (Pages not enabled), `gh pr create` hits SAML so I used REST. Lint (Node 20/22) and agent-policy pass.
+- **What I did about it:** PR https://github.com/efostud/webshop/pull/6, base `efostud/webshop:main`, head `kmom10`. Not merged. The diff includes unmerged earlier kmom commits because the branches are stacked.
+- **Suggested fix:** See kmom04.
+
+## Time spent vs. stated
+| Section | Stated | Actual (rough) |
+|---|---|---|
+| Genomgång video | (none) | ~0.2 h (captions) |
+| Krav 3 | (none stated; 15 p) | ~1.5 h |
+| Krav 4 | (none stated; 15 p) | ~2 h (measuring and screenshots) |
+| Krav 1, Krav 2 | (none stated) | not implemented, read only |
+| Redovisning | (none) | ~0.5 h |
+| Presentation video | (none) | not done (Q10) |
+
+No time is stated for the project at all, in contrast to the other kmom pages (which give hours per section); a student has no idea how much work to expect. Suggest adding hours per requirement.
+
+## Things that worked well
+- The four-requirement structure with choice is clear and gives students freedom; the reflection template per requirement is easy to follow.
+- Having built components in kmom05 made the stock rule (Krav 3) quick to add.
+- Measuring before and after (overflow, Lighthouse) made Krav 4 concrete.
