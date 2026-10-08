@@ -77,13 +77,6 @@ Videos read via Swedish auto-captions (3 videos: demo, genomgång, föreläsning
 - **What I did about it:** `type="text" inputmode="numeric" pattern="[0-9]{3} ?[0-9]{2}"` for the zip code.
 - **Suggested fix:** Add a short note about when *not* to use `number`, and tie it to the NN article.
 
-### Q10. Images in `orderformular_for_webbshoppen.mdx` import path
-- **Where:** same, top of file (`../../../assets/inputs/...`)
-- **Type:** other
-- **What I wondered / got stuck on:** Not a student problem, but `kunskap/` pages import from `../../../assets` while `kmom04.mdx` imports from `../../assets`. Fine as long as the build passes. Not verified on the site build.
-- **What I did about it:** Nothing.
-- **Suggested fix:** None needed unless the build fails.
-
 ### Q11. Exercise says the order is created "i API:t" but `order_items` / `models/orders.js` is not provided
 - **Where:** `orderformular_for_webbshoppen.mdx`, last two listings
 - **Type:** missing
@@ -105,32 +98,66 @@ Videos read via Swedish auto-captions (3 videos: demo, genomgång, föreläsning
 - **What I did about it:** Added the link in the static cart panel markup below the product list, hidden if the cart is empty.
 - **Suggested fix:** Say where the button goes.
 
-### Q14. Stripe CDN URL `https://js.stripe.com/clover/stripe.js` and HTMLHint
-- **Where:** `integrera_stripe.mdx`
-- **Type:** tooling
-- **What I wondered / got stuck on:** Needs to be verified in the browser; see below under tooling notes.
-- **What I did about it:** See log below.
-- **Suggested fix:** See below.
+### Q14. Stripe checkout works, but errors are not handled (bad `session_id`, 504)
+- **Where:** `kunskap/integrera_stripe.mdx`, "Ta hand om betalningen"
+- **Type:** missing
+- **What I wondered / got stuck on:** `https://js.stripe.com/clover/stripe.js` and the embedded checkout mount fine in Chromium (iframe appears). But calling `/stripe/session-status` with an unknown `session_id` made the Lager API answer with an nginx `504 Gateway Time-out` HTML page after ~60 s, so `response.json()` in the exercise code throws and the page shows nothing. A student who edits or reuses an old URL gets a blank page and no hint. I could not complete a real card payment in headless Chromium (cross-origin iframe), so the post-payment path (`session.status == 'complete'` -> form) was only verified in pieces: the order API calls separately (order 16923 + item created and read back), the rest by reading the code.
+- **What I did about it:** Left as in the exercise. Logged only.
+- **Suggested fix:** Mention that `session_id` must come from a real payment, and wrap the call in `try/catch` with a message. Consider making the API return JSON errors.
+
+### Q14b. Exercise's `:valid`/`:invalid` styling contradicts the NN/g article in the same kmom
+- **Where:** `orderformular_for_webbshoppen.mdx` ("Styling av formulär", green/red border) vs. NN/g "Website Forms Usability" (errors not by color alone; avoid placeholders; explain formats; distinguish optional/required) and the `pattern` example with `placeholder="YYMMDD-XXXX"`
+- **Type:** contradiction
+- **What I wondered / got stuck on:** The exercise teaches green/red borders only, with `:invalid` applying on page load to every empty `required` field (the whole form is red before the student types), and uses a placeholder as the format hint. The assigned reading says the opposite on three points. `:user-invalid` (the fix) is not mentioned. The reflection question 1 asks what you learned from the article, so a student who follows the exercise literally violates it.
+- **What I did about it:** Followed the article: hint text above the field, `:user-invalid` with thick border and background (not color only), no placeholder.
+- **Suggested fix:** Update the exercise to `:user-invalid`, add a non-color cue and a visible hint, and remove the placeholder example.
 
 ### Q15. Time-consuming: Resurser på webben needs 2 new webshops x 3 pages, plus the first from kmom03
 - **Where:** `uppgifter/resurser_pa_webben.mdx` req. 1 ("ytterligare 2 webbshoppar") vs. genomgång video ("välja tre webbshoppar") and the three tables
 - **Type:** contradiction
-- **What I wondered / got stuck on:** The spec says "choose 2 more webshops" (so 3 in total with the one from kmom03?), the video says "välja tre webbshoppar och tre sidor från varje", "rimligen kan sida 1 vara den ni redan har undersökt i kmom03". The kmom03 assignment analysed one shop's JavaScript only. The student's own webshop is not part of it. Req. 6 asks for a reflection on sustainability but the report template has "Analys" only; the Tidwell chapter and the CO2 article are not tied to the requirements (e.g. no one asks the student to estimate CO2 with the formula from the article). "Laddningstid" is not defined (DOMContentLoaded vs load vs finish).
+- **What I wondered / got stuck on:** The spec says "choose 2 more webshops" (so 3 in total with the one from kmom03?), the genomgång video says "välja tre webbshoppar och tre sidor från varje", "rimligen kan sida 1 vara den ni redan har undersökt i kmom03". The kmom03 assignment analysed one shop's JavaScript only. The student's own webshop is not part of it. Req. 6 asks for a reflection on sustainability but the report template has "Analys" only; the Tidwell chapter and the CO2 article are not tied to the requirements (e.g. no one asks the student to estimate CO2 with the formula from the article). "Laddningstid" is not defined (DOMContentLoaded vs load vs finish).
 - **What I did about it:** IKEA (from kmom01-03) + two others; load time = "Finish"/load from Network panel; ran cache-disabled.
 - **Suggested fix:** Align the spec with the video ("tre webbshoppar totalt, varav en från kmom03"); define load time; ask for a CO2 estimate using the article.
 
 ### Q16. Reading and videos
 - **Where:** `kmom04.mdx` "Läsa & titta"
 - **Type:** other
-- **What I wondered / got stuck on:** Chapter 10 of *Designing Interfaces* cannot be read (e-book behind library login), skipped. NN Group article and the CO2 article are readable web pages; the third referenced paper (MDPI, Sustainability) is open access. Time stated: 8 h reading + 6 h exercises + 6 h assignments + 1 h reflection = 21 h. The genomgång (~35 min?) says "Så ni kommer nog uppleva att den rapporten är lite större denna veckan" and kmom03/04 are 2 hp. The lecture is mostly about searching for research (Open Access tools), validation and regex, and CSS, which is not tied to any exercise or requirement. The demo video (kmom04) shows form fields (address etc.) that do not exist in the exercise (Q8). Videos depend on screen content for the code demos and the Open Access search tools. The genomgång video is for "Tisdag" and the lecture for "Onsdag" in the kmom page text, which does not fit students working in other weeks.
-- **What I did about it:** Reflection is simulated from the NN article (read from the web) and my own work; marked in the log.
-- **Suggested fix:** Link the lecture contents (validation/regex) to the form assignment, and fix the text to "när genomgången hölls".
+- **What I wondered / got stuck on:** Chapter 10 of *Designing Interfaces* is behind the library login and could not be read (skipped). The NN/g and CO2 articles were read from the web; I did not read the referenced MDPI paper. Stated time is 8 h reading + 6 h exercises + 6 h assignments + 1 h reflection = 21 h for the kmom. The lecture video (captions) is mostly about searching research (Open Access tools), form validation/regex and CSS; none of it maps to a requirement in the webbshoppen del 4 spec or the report spec. Both videos contain code/tool demos that depend on what is on screen. The page text says the genomgång is "Tisdag" and the lecture "Onsdag", which is wrong for students watching later. The genomgång mentions "tre webbshoppar" while the spec says "ytterligare 2" (see Q15), and the demo video shows a form with address fields (Q8).
+- **What I did about it:** The reflection answers are written from the NN/g article and my own work, **simulated** (no real student experience, no Tidwell chapter, and no real card payment was completed).
+- **Suggested fix:** Link the lecture's validation content to the assignment, and reword the day references.
+
+### Q17. Deploy workflow fails in the fork: GitHub Pages is not enabled
+- **Where:** `.github/workflows/static-deploy.yml`, CI on `kmom04` push
+- **Type:** tooling
+- **What I wondered / got stuck on:** "Deploy static content to Pages" fails in "Setup Pages": `Get Pages site failed. Please verify that the repository has Pages enabled`. Lint (Node 20/22) and agent-policy pass. Probably the same on every student fork until Pages (source: GitHub Actions) is enabled; the Stripe `return_url` in the exercise (`location.href`) and the API docs example (`github_user_name.github.io/webshop/order.html`) assume a deployed page, but nothing in kmom04 mentions enabling Pages.
+- **What I did about it:** Did not change the fork settings. Logged only.
+- **Suggested fix:** Tell students to enable Pages (Settings > Pages > GitHub Actions) in kmom01 if not already there, or make the workflow tolerant (`enablement: true`).
+
+### Q18. PR cannot be created with `gh pr create` (SAML), REST works
+- **Where:** hand-in, `gh pr create --repo efostud/webshop ...`
+- **Type:** tooling
+- **What I wondered / got stuck on:** Same as kmom02 Q17: GraphQL fails with "Resource protected by organization SAML enforcement (repository.parent)" because the fork's parent is in the `dbwebb-jsux` org.
+- **What I did about it:** Created the PR against the fork itself via the REST API (`gh api repos/efostud/webshop/pulls`): https://github.com/efostud/webshop/pull/3, base `efostud/webshop:main`, head `kmom04`. Not merged.
+- **Suggested fix:** Authorize the token for the org (`gh auth refresh` + SSO), or note in the skill that REST is the workaround.
+
+### Q19. ESLint/Stylelint caught `font-family: inherit` in the new `forms.css`
+- **Where:** `forms.css`, `css/font-family-fallbacks` rule
+- **Type:** tooling
+- **What I wondered / got stuck on:** The exercise's `.input` uses `font-family: var(--default-font)`, which the starter's lint config may flag the same way; the exercise's CSS variables (`--default-font`, `--default-font-size`, `--default-line-height`, `--default-margin-bottom`) do not exist in the starter's `variables.css` either.
+- **What I did about it:** Used `"Noto Sans", sans-serif` and my own values.
+- **Suggested fix:** Use values the starter defines, or define those variables in the starter.
 
 ## Time spent vs. stated
 | Section | Stated | Actual (rough) |
 |---|---|---|
-| (filled in at the end) | | |
+| Läsa & titta | 8 h | not done fully (book skipped); ~0.3 h for two web articles and caption reading |
+| Öva (Stripe + orderformulär) | 6 h | ~1.5 h (a student would need more, debugging Q1, Q6, Q7) |
+| Uppgift: Webbshoppen del 4 | 6 h | ~1 h (included in Öva; flow verified only in pieces) |
+| Uppgift: Resurser på webben | (part of 6 h) | ~1 h automated; a human doing 9 pages by hand in DevTools: ~1.5-2 h |
+| Reflektera | 1 h | ~0.2 h (simulated) |
 
 ## Things that worked well
 - The demo video clearly shows the finished flow (cart, Stripe checkout, form, order created).
 - Using a shared Stripe test backend is a good idea; no setup needed.
+- The embedded checkout is genuinely easy to mount; the shared test backend means no account is needed.
+- The Lager API order and order_items endpoints behave as documented (`POST /v2/orders` returns `data.id`).
