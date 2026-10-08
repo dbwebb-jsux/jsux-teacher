@@ -32,7 +32,7 @@ Videos read via Swedish auto-captions (demo, genomgång, Lighthouse, lecture). T
 - **Where:** same, `SingleProduct` class and `renderProducts`
 - **Type:** unclear
 - **What I wondered / got stuck on:** `observedAttributes` is declared but no `attributeChangedCallback` exists, so it does nothing; the text says it "definierar vilka attribut vi kunna hämta data ifrån", which is not what it does (it declares which attributes trigger `attributeChangedCallback`). Also the JSON is put inside a single-quoted attribute: any apostrophe in a value (an album called "Ain't ...") would break the HTML. (None of the 12 current product names has one, so it works for now.) `JSON.parse` in a getter runs on every access.
-- **What I did about it:** Used `attributeChangedCallback`-free `connectedCallback` rendering as in the exercise, but escaped the JSON with `&apos;`/`&quot;` via `escapeHTML`... (see code), and noted the misleading text.
+- **What I did about it:** Kept `connectedCallback` rendering as in the exercise, but wrote the JSON into a double-quoted attribute escaped with a small `escapeAttribute()` helper (`components/escape.js`), and did not declare `observedAttributes`.
 - **Suggested fix:** Explain what `observedAttributes` is for, or drop it; mention escaping or use `this.dataset`/`setAttribute` from JS.
 
 ### Q5. The exercise does the product *list*, the assignment asks for the *cart*; the exercise says nothing about click handling
@@ -77,3 +77,65 @@ Videos read via Swedish auto-captions (demo, genomgång, Lighthouse, lecture). T
 - **What I did about it:** Ignored.
 - **Suggested fix:** Re-record or add a note that dates refer to the 2025 run.
 
+### Q11. Exercise code is indented with 4 spaces and fails the starter's ESLint (`indent: 2`)
+- **Where:** `kunskap/en_webbkomponent.mdx`, the class listings
+- **Type:** tooling
+- **What I wondered / got stuck on:** Pasting the `SingleProduct` listing gives 9 `indent` errors in ESLint (verified by linting the pasted code). The starter's `CLAUDE.md` says 2 spaces. The "Node.js CI" workflow would fail for any student who copies the code as is.
+- **What I did about it:** Wrote 2-space code.
+- **Suggested fix:** Reformat the listings to 2 spaces.
+
+### Q12. `remove()` as a method name overrides `Element.remove()`
+- **Where:** `uppgifter/webbshoppen_del_5.mdx` req. 3 ("minskning, ökning och borttagning ... i metoder i klassen")
+- **Type:** unclear
+- **What I wondered / got stuck on:** The natural names `increase`, `decrease`, `remove`: the last one shadows the built-in `Element.remove()`, which removes the element from the DOM. Harmless here but a trap.
+- **What I did about it:** Named it `remove_()` (ugly).
+- **Suggested fix:** Suggest `removeProduct()` in the spec/exercise.
+
+### Q13. Clas Ohlson has no standalone cart page; last week's "order" row was a 404 page
+- **Where:** `uppgifter/analys_verktyg.mdx` req. 3, and `uppgifter/resurser_pa_webben.mdx` (kmom04)
+- **Type:** unclear
+- **What I wondered / got stuck on:** Lighthouse got 404 (`ERRORED_DOCUMENT_REQUEST`) on `/se/cart`, `/se/checkout` and `/se/kassa` at clasohlson.com; the real cart is a drawer. My kmom04 measurement of `/se/cart` therefore measured an error page, and I only found out in kmom05. I corrected the kmom04 report (pushed to the open PR). Students will hit the same with any shop whose cart is a drawer or whose checkout needs items in the cart.
+- **What I did about it:** Left that row empty and said so in the report.
+- **Suggested fix:** Say "välj en webbshop som har en egen varukorgs-/kassasida, eller skriv att den saknas", and warn that the page must be checked to be a real page, not a 404.
+
+### Q14. Lighthouse scores vary between runs; terminology in the genomgång is outdated
+- **Where:** `uppgifter/analys_verktyg.mdx`, `kunskap/google_lighthouse.mdx`
+- **Type:** unclear
+- **What I wondered / got stuck on:** Performance is noisy (throttling, extensions, headless vs headed); students will compare numbers and get different results. Not mentioned. Lighthouse 13 reports "insights" (e.g. `image-delivery-insight`), not "Opportunities".
+- **What I did about it:** Documented version, preset and one run per page.
+- **Suggested fix:** Add a sentence about noise, recommend incognito, and update the vocabulary.
+
+### Q15. Own webshop weighs about 28 MB: product images from the API are huge
+- **Where:** the student's own shop + Lager API `image_url`
+- **Type:** other
+- **What I wondered / got stuck on:** Lighthouse on my own front page shows ~28 MB total, of which ~27.7 MB is estimated saveable via image delivery, LCP 8 s locally. The kmom04 sustainability report is about resource usage, yet the student's own shop is heavier than all measured commercial shops. `kunskap/responsiva-bilder.mdx` exists but kmom05 never mentions it. In the kmom04 report I had written "min webbshop är liten" without measuring; the numbers contradicted it (corrected). Good teaching material if the student measures their own shop.
+- **What I did about it:** Reported it in the kmom05 report; did not change the shop (out of scope for del 5).
+- **Suggested fix:** Make "kör Lighthouse på din egen webbshop" an explicit requirement in `analys_verktyg` and link `responsiva-bilder`; consider smaller images in the Lager API.
+
+### Q16. Deploy workflow still fails in the fork (Pages not enabled)
+- **Where:** `.github/workflows/static-deploy.yml`
+- **Type:** tooling
+- **What I wondered / got stuck on:** Same as kmom04 Q17. Lint (Node 20/22) and agent-policy pass on `kmom05`.
+- **What I did about it:** Nothing.
+- **Suggested fix:** See kmom04 Q17.
+
+### Q17. PR via REST again
+- **Where:** hand-in
+- **Type:** tooling
+- **What I wondered / got stuck on:** `gh pr create` fails with the SAML error (kmom02 Q17, kmom04 Q18), so I did not retry it.
+- **What I did about it:** Created https://github.com/efostud/webshop/pull/4 via `gh api repos/efostud/webshop/pulls` with base `efostud/webshop:main`, head `kmom05`. Not merged. Because the branch is cut from `kmom04`, the PR diff also contains the unmerged kmom03/kmom04 commits.
+- **Suggested fix:** See kmom04 Q18.
+
+## Time spent vs. stated
+| Section | Stated | Actual (rough) |
+|---|---|---|
+| Läsa & titta | 8 h | not done (book and IKEA talk unavailable); ~0.3 h captions |
+| Öva (Lighthouse + webbkomponent) | 6 h | ~0.5 h (video only) + ~1 h |
+| Uppgift: Webbshoppen del 5 | 6 h (shared with report) | ~1 h incl. shared cart model and escaping |
+| Uppgift: Analysverktyg | (part of 6 h) | ~1.5 h, most of it on the Clas Ohlson 404 and my own shop |
+| Reflektera | 1 h | ~0.2 h (question 1 simulated) |
+
+## Things that worked well
+- The component idea is easy to grasp from the exercise; the finished product list rendered after small changes.
+- The Lighthouse CLI with `--preset=desktop` gives a reproducible alternative to DevTools.
+- Measuring the student's own shop turned out to be a useful surprise (Q15).
