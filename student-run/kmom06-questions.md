@@ -74,7 +74,7 @@ Videos read via Swedish auto-captions (demo, genomgång, API-key video, lecture)
 ### Q9. Reflection asks for ITCIL, which is not in the kmom text of other weeks; template check
 - **Where:** `kmom06.mdx` reflection section, `reflections/kmom06.md`
 - **Type:** other
-- **What I wondered / got stuck on:** The section mentions "Upplever du API sättet ... som ett sätt som öppnar möjligheter" etc. Checking the template: see below. The ITCIL ("In This Course I Learned") covers the whole course and is a good question, but "5-8 meningar per fråga" for a course-wide summary is short.
+- **What I wondered / got stuck on:** The section mentions "Upplever du API sättet ... som ett sätt som öppnar möjligheter" etc. The template in the starter has all four questions, matching the page. The ITCIL ("In This Course I Learned") covers the whole course and is a good question, but "5-8 meningar per fråga" for a course-wide summary is short.
 - **What I did about it:** Wrote 5-8 sentences each.
 - **Suggested fix:** None.
 
@@ -92,3 +92,30 @@ Videos read via Swedish auto-captions (demo, genomgång, API-key video, lecture)
 - **What I did about it:** Check `response.ok` and `result.choices`, show a friendly error message in the chat.
 - **Suggested fix:** Show an `if (!response.ok)` branch and the 429 message in the exercise.
 
+### Q12. `.input` and `.button` come from the kmom04 `forms.css`; the exercise's classes have no styles of their own
+- **Where:** `kunskap/azure_openai_api.mdx` (`class="input new-message"`), `uppgifter/webbshoppen_del_6.mdx` req. 1
+- **Type:** missing
+- **What I wondered / got stuck on:** No CSS for the chat is provided (message bubbles, scroll area, open/close). "Lättanvänt chattgränssnitt" needs about 100 lines of CSS; the exercise shows none and the video's finished chat is only a screen recording. `.input`/`.button` only exist if the student created `forms.css` in kmom04 (kmom04 Q3b), and `index.html` did not load it.
+- **What I did about it:** Wrote `chat.css` and loaded `forms.css` on all pages.
+- **Suggested fix:** Give a starter `chat.css` or say CSS design is part of the task.
+
+### Q13. Deploy and PR tooling
+- **Where:** hand-in
+- **Type:** tooling
+- **What I wondered / got stuck on:** Same as kmom04 Q17/Q18: Pages deploy fails in the fork (Pages not enabled), `gh pr create` hits SAML. Lint (Node 20/22) and agent-policy pass. Note: the reflection and the PR say the chat was tested with a stub because there was no key.
+- **What I did about it:** PR via REST: https://github.com/efostud/webshop/pull/5, base `efostud/webshop:main`, head `kmom06`. Not merged. The diff also contains unmerged kmom03-05 commits.
+- **Suggested fix:** See kmom04.
+
+## Time spent vs. stated
+| Section | Stated | Actual (rough) |
+|---|---|---|
+| Läsa & titta | none stated (Q8) | not done (book); ~0.3 h captions |
+| Öva (Azure OpenAI API) | 6 h | key ordering not possible (Q1, normally hours of waiting); ~1 h coding |
+| Uppgift: Chilla lite | (part of 6 h) | 0 |
+| Uppgift: Webbshoppen del 6 | (part of 6 h) | ~1.5 h incl. CSS and tests with a stubbed API |
+| Reflektera | 1 h | ~0.3 h (question 1 simulated; question 4 written from the simulated student runs) |
+
+## Things that worked well
+- The system/user message structure is easy to grasp and the exercise's skeleton gets the component going.
+- The kmom's idea of making the chat a web component builds nicely on kmom05.
+- Sending the product list in the system prompt makes the bot much more useful (the demo video's bot did not know the albums).
