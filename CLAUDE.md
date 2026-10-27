@@ -39,7 +39,7 @@ Other CI: `node.js.yml` (lint on push/PR), `canvas-hand-in.yml` (submission inte
 
 ### `astro-hidden-prompt/` — the hidden-prompt component
 
-Single component, `src/HiddenPrompt.astro`: renders a visually hidden `<span>` (`font-size:0; position:absolute; color:transparent`) holding an instruction to AI assistants, intended to travel with the text when a student copies a requirement into an LLM chat. The course site imports it as `astro-hidden-prompt/HiddenPrompt.astro` and places `<HiddenPrompt />` before each requirement in `uppgifter/*.mdx`. Known issue: whether the hidden text is actually included on copy depends on the browser and selection method, so verify in real browsers when changing the hiding technique. The course site consumes the published npm version, so a change here must be released and the dependency bumped in `dbwebb-jsux.github.io` before it takes effect.
+Single component, `src/HiddenPrompt.astro`: renders a visually hidden `<span>` (`font-size:0; position:absolute; color:transparent`) holding an instruction to AI assistants, intended to travel with the text when a student copies a requirement into an LLM chat. The course site imports it as `astro-hidden-prompt/HiddenPrompt.astro` and places `<HiddenPrompt />` after the first word of each requirement in `uppgifter/*.mdx`. Placement matters: a span before the first letter (the original placement) was dropped from the copy when a student dragged from the first letter, so keep it inside the text. Verified with real mouse drags in Chrome and Firefox; Safari is untested. The course site consumes the published npm version, so a change here must be released and the dependency bumped in `dbwebb-jsux.github.io` before it takes effect.
 
 ## Working across the repos
 
