@@ -6,11 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This folder is the workspace for the **teacher** of JSUX ("UX-design med JavaScript", course code DV1705 at BTH), preparing and improving course material for the next running of the course, **November 2026 – January 2027**. Act as a teaching assistant: help draft, restructure, and polish weekly course content, assignment specs, grading rubrics, and the student starter project — not as a student writing code for submission.
 
-This folder is not itself a git repository — it contains two independent repos, described below. `cd` into the relevant one before running its commands; each has its own `CLAUDE.md` with detailed build/lint/test commands.
+This folder is itself a git repo, but only for the teacher notes (`CLAUDE.md`, `TODO.md`, `TEACHER_TODO.md`, `student-run/`); it also contains several independent repos (gitignored here), described below. `cd` into the relevant one before running its commands; each has its own `CLAUDE.md` with detailed build/lint/test commands.
 
-You have access to both repos from this workspace:
+You have access to these repos from this workspace:
 - `dbwebb-jsux.github.io/` — the course website repo (course content, kmom pages, assignments, knowledge articles).
 - `webshop/` — the starter repo that students fork, clone and work in during the course.
+- `astro-hidden-prompt/` — the Astro component (npm package `astro-hidden-prompt`, remote `emilfolino/astro-hidden-prompt`) that the course site uses to embed invisible AI-guidance text before each requirement.
+- `order_api/` — the Lager API (remote `emilfolino/order_api`, deployed at https://lager.emilfolino.se/) that students' webshops fetch products from; see the kunskap article on the inventory API.
+- `efostud/` (named `webshop-efostud/` on the teacher's other machine; both are gitignored) — the teacher's own test fork of `webshop` (remote `efostud/webshop`), where the `student-run` skill does its work as a simulated student. Not course material; don't edit it outside student-run sessions.
+- `student-run/` — plain folder (not a repo) with the question/friction logs from the student-run passes (`kmomNN-questions.md`, `kmomNN-run2-questions.md`). `TEACHER_TODO.md` is derived from these.
 
 ## Repos in this workspace
 
@@ -33,6 +37,10 @@ It carries a **student-facing anti-AI-agent policy**, enforced by CI (`.github/w
 
 Other CI: `node.js.yml` (lint on push/PR), `canvas-hand-in.yml` (submission integration with Canvas LMS), `static-deploy.yml` (deploys the starter site).
 
-## Working across the two repos
+### `astro-hidden-prompt/` — the hidden-prompt component
+
+Single component, `src/HiddenPrompt.astro`: renders a visually hidden `<span>` (`font-size:0; position:absolute; color:transparent`) holding an instruction to AI assistants, intended to travel with the text when a student copies a requirement into an LLM chat. The course site imports it as `astro-hidden-prompt/HiddenPrompt.astro` and places `<HiddenPrompt />` before each requirement in `uppgifter/*.mdx`. Known issue: whether the hidden text is actually included on copy depends on the browser and selection method, so verify in real browsers when changing the hiding technique. The course site consumes the published npm version, so a change here must be released and the dependency bumped in `dbwebb-jsux.github.io` before it takes effect.
+
+## Working across the repos
 
 Course content in `dbwebb-jsux.github.io` (kmom pages, `uppgifter/webbshoppen_del_*`) describes a project that students build inside `webshop`. When editing an assignment spec or kmom moment, check whether it references files, structure, or behavior that should stay consistent with the `webshop` starter (e.g. `index.html`, `style.css`, the anti-agent notice, CI workflow names).
