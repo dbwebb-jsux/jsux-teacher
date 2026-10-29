@@ -17,8 +17,7 @@ Legend: **[decide]** needs a decision before the text can be fixed · **[do]** e
   - kmom04 demo: form has address/zip/city/country, the exercise form has only name + e-mail (kmom04 Q8).
   - kmom06 demo: bot that doesn't answer / doesn't know the albums (kmom06 Q5, Q10).
   - Alternative to re-recording: change the spec to match the video (see section 2).
-- [ ] **[do] Kmom01 hand-in video `YD0tE7FW6i0`** still shows pasting answers into the PR description (T20).
-      Re-record or remove (falls under T26 if you agree it counts as a walkthrough).
+- [x] Kmom01 hand-in video replaced with the new recording `6fuj61ZiUkE` (T20), commit `c9810fd` in `dbwebb-jsux.github.io`. The old "Obs" note about the PR description was removed with it.
 - [ ] **[do] kmom05: IKEA guest talk `-SbmENFroCk` is a private video** (kmom05 Q1). Make it unlisted/public
       (check the speakers' consent) or tell me to remove the section.
 - [x] T26 done (committed, not pushed): "Veckans genomgång"/"Veckans föreläsning" (kmom01–06) and "Genomgång av projektet" (kmom10) are removed. Kept: demo videos, kmom01 setup/hand-in/feedback videos, sustainability videos, the IKEA talk, the API-key and Lighthouse videos.
@@ -77,7 +76,7 @@ Give me a one-line answer per item and I will make the edits.
 
 ## 3. External systems and accounts (outside the repos)
 
-- [ ] **[do] Deploy the Lager API changes** — code is done on branch `student-run-fixes` in `order_api/` (thumbnails, `thumbnail_url`, `?category=`, Stripe JSON errors). The course pages that use them are edited but **uncommitted** in `dbwebb-jsux.github.io`; publish them only after the deploy works. Steps: see the chat message (merge to `master`, push, purge jsDelivr, run the two SQL files, restart).
+- [x] Lager API changes deployed (PR #46 `student-run-fixes` merged to `master`, deployed 2026-10-29; thumbnails, `thumbnail_url`, `?category=`, Stripe JSON errors). Verified live 2026-10-29 with a key for efo@bth.se: `?category=` filters, `thumbnail_url` is set and thumbnails/images load from jsDelivr. (The 6× duplicated albums seen in that test are from earlier copies already stored under that key, not a seed problem.) The course pages that use them were edited but **uncommitted** in `dbwebb-jsux.github.io` at the time; check whether they are published now.
   - Not planned: duplicate-order protection (kmom10 Q13), accept as a documented limitation.
   - **[decide]** Category values `hard rock`/`hiphop`: rename (breaks existing students' code and the demo videos) or keep and document? Default: keep and document.
   - **[decide]** `price`: seed stores 100 (öre), API returns `price / 100` = 1. Stripe exercise uses 10000 öre. Default: keep and explain in the article; or seed real prices (e.g. 10000 → API returns 100) so the exercise can use `price * 100`.

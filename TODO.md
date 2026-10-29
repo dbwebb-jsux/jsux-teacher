@@ -91,8 +91,8 @@ Source: `student-run/kmom01-questions.md` (run 1, 19 entries; the log has detail
     `reports/` is used for the analysis reports in kmom01–05 and kmom10, and
     the kmom pages, hand-in video and kmom10 disagree on where the reflection goes (report file vs PR
     description). Add template files `reflections/kmom01.md`…`kmom06.md` and `kmom10.md` in the starter, and
-    update all kmom pages ("Reflektera"/"Redovisning") to say where to write. The kmom01 hand-in video
-    (`YD0tE7FW6i0`) still shows pasting the answers into the PR description and needs re-recording or a note.
+    update all kmom pages ("Reflektera"/"Redovisning") to say where to write. The kmom01 hand-in video was
+    re-recorded (`6fuj61ZiUkE`, commit `c9810fd`), so that part is done.
 
 Run 2 (kmom01 again, after the reflections change), source: `student-run/kmom01-run2-questions.md`:
 
