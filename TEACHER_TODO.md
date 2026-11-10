@@ -85,6 +85,10 @@ Give me a one-line answer per item and I will make the edits.
 - [ ] **[do] Azure OpenAI key flow** (kmom06 Q1, Q10): the key arrives hours after ordering in TopDesk. Confirm the process still works in
       Nov 2026, and say whether you can/will remind students in kmom05. Check quotas ("kalibrera quotas") and tell me the official contact route (Discord?).
       Decide whether to provide a proxy endpoint like the Stripe one.
+- [ ] **[do] Verify the Azure OpenAI chat/completions URL is still current** — it may have changed. Used in
+      `kunskap/azure_openai_api.mdx:36` (`https://bth-ai.azure-api.net/student/openai/deployments/gpt-4o-mini/chat/completions?api-version=2025-01-01-preview`).
+      Check deployment name (`gpt-4o-mini`), path and `api-version` against what BTH currently issues with the key. Link check 2026-10-23: unauthenticated
+      GET → 404, POST → 401, so the host answers but the path can't be confirmed without a key. Also grep the `webshop` starter for the same URL.
 - [ ] **[do] Give the agent a real key for a live test** of `azure_openai_api` (kmom06 Q1) — the answer so far is from a stub.
 - [ ] **[do] SAML for the test fork** (kmom02 Q17, kmom04 Q18): authorize the `gh` token for the `dbwebb-jsux` org
       (`gh auth refresh -h github.com -s repo` + SSO authorize). Otherwise student-run PRs need the REST workaround.
