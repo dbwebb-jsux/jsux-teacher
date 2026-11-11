@@ -14,6 +14,7 @@ You have access to these repos from this workspace:
 - `astro-hidden-prompt/` — the Astro component (npm package `astro-hidden-prompt`, remote `emilfolino/astro-hidden-prompt`) that the course site uses to embed invisible AI-guidance text before each requirement.
 - `order_api/` — the Lager API (remote `emilfolino/order_api`, deployed at https://lager.emilfolino.se/) that students' webshops fetch products from; see the kunskap article on the inventory API.
 - `efostud/` (named `webshop-efostud/` on the teacher's other machine; both are gitignored) — the teacher's own test fork of `webshop` (remote `efostud/webshop`), where the `student-run` skill does its work as a simulated student. Not course material; don't edit it outside student-run sessions.
+- `slides/` — the lecture slides (remote `dbwebb-jsux/slides`): plain HTML/CSS/JS, one `kmomNN.html` per course moment (kmom01–06 so far) with a shared `main.js`/`style.css` and a `kmomNN/` folder per moment; `index.html` is the entry page. Not a build-step project. Gitignored here.
 - `student-run/` — plain folder (not a repo) with the question/friction logs from the student-run passes (`kmomNN-questions.md`, `kmomNN-run2-questions.md`). `TEACHER_TODO.md` is derived from these.
 
 ## Repos in this workspace
